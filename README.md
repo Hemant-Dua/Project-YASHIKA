@@ -20,8 +20,8 @@ For privacy, speed, and offline resilience — especially crucial for personal A
 
 - **Python**
 - **Ollama**
-- **HTML-CSS-JS**
 - **FastAPI**
+- **HTML-CSS-JS**
 
 ---
 
@@ -55,8 +55,8 @@ For privacy, speed, and offline resilience — especially crucial for personal A
 
 2. **Create a Virtual Environment**
    ```powershell
-   python -m venv .venv
-   .venv\Scripts\activate
+   python -m venv env
+   env\Scripts\activate
    ```
 
 3. **Install Dependencies**
@@ -92,10 +92,9 @@ For privacy, speed, and offline resilience — especially crucial for personal A
 
 - Ollama must be active before running YASHIKA.
 - If you're accessing from Windows scripts, ensure `localhost` API from WSL is accessible.
-- You can configure the Ollama endpoint using `.env` or `config.py`:
-  ```
-  OLLAMA_API_BASE=http://localhost:11434
-  ```
+- 🛠️ **Troubleshooting Tip:** Visit [`http://localhost:11434`](http://localhost:11434) in your browser.  
+  If Ollama is running, you'll see a `"Ollama is running"` message. Otherwise, start it using `ollama run`.
+
 
 ---
 
