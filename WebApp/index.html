@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Y.A.S.H.I.K.A. Terminal</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+  <button id="toggleSidebar" onclick="toggleSidebar()">☰</button>
+
+  <div id="sidebar">
+    <h2>⚙️ Presets</h2>
+    <button onclick="runPreset('DevModeProtocol')">Launch Dev Mode Protocol</button>
+  </div>
+
+  <h1 class="yashika-title">
+    &lt; / Y.A.S.H.I.K.A. &gt;<br>
+    <!-- Yet Another Super Human Intelligent Knowledge Agent -->
+  </h1>
+
+  <div id="log"></div>
+
+  <div id="inputArea">
+    <input id="userInput" placeholder="Speak to your AI assistant..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+  <script src="static/script.js"></script>
+</body>
+</html>

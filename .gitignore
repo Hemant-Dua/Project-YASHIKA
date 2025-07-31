@@ -1,0 +1,23 @@
+# Memory and Logs
+**/log.txt
+**/context.json
+**/memory.json
+
+# Environment
+*.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# VSCode
+.vscode/
+
+# Temporary files
+*.tmp
+*.swp
+
+# My secret files
+setup.bat
