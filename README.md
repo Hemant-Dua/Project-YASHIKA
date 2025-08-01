@@ -50,7 +50,7 @@ For privacy, speed, and offline resilience — especially crucial for personal A
 1. **Clone the Repository**
    ```powershell
    git clone https://github.com/Hemant-Dua/Project-YASHIKA.git
-   cd Y.A.S.H.I.K.A.
+   cd Project-YASHIKA
    ```
 
 2. **Create a Virtual Environment**
