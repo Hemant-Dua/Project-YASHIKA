@@ -18,7 +18,16 @@ from main import (
     stream_response
 )
 
-app = FastAPI()
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Clean context and memory on startup
+    save_context([])
+    yield  # App runs here
+    # You can also do cleanup on shutdown after this if needed
+
+app = FastAPI(lifespan=lifespan)
 
 # Enable CORS (for frontend access)
 app.add_middleware(
