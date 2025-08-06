@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OLLAMA_API = os.getenv("OLLAMA_API")
-MODEL = "gemma"
+MODEL = os.getenv("MODEL")
 
 # Load memory
 def load_memory():
