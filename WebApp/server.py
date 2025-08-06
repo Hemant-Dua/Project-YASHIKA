@@ -3,14 +3,13 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "llm")))
 
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-
 from fastapi.staticfiles import StaticFiles
 
-from actions import handle_local_commands
+import uvicorn
 
+from actions import handle_local_commands
 
 from main import (
     build_prompt, load_context, load_memory,
@@ -48,16 +47,25 @@ async def chat_api(req: Request):
 
     # Check for local commands
     response, matched = handle_local_commands(user_input)
-    if not matched:
-        prompt = build_prompt(user_input, context=context, memory=memory)
-        response = stream_response(prompt)
+    if matched:
+        context.append({"user": user_input, "ai": response})
+        context = context[-5:]
+        save_context(context)
+        return StreamingResponse((chunk for chunk in [response]), media_type="text/plain")
+
+    prompt = build_prompt(user_input, context=context, memory=memory)
+
+    def stream_gen():
+        full_response = ""
+        for chunk in stream_response(prompt):
+            full_response += chunk
+            yield chunk
+        context.append({"user": user_input, "ai": full_response})
+        save_context(context[-5:])
 
 
-    context.append({"user": user_input, "ai": response})
-    context = context[-5:]
-    save_context(context)
+    return StreamingResponse(stream_gen(), media_type="text/plain")
 
-    return {"response": response}
 
 # Serve static files from 'static' folder
 app.mount("/static", StaticFiles(directory="static"), name="static")

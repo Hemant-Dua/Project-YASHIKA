@@ -95,12 +95,12 @@ def stream_response(prompt):
         "model": MODEL,
         "prompt": prompt,
         "stream": True,
-        "temperature": 0.3,        # Lower = more deterministic
-        "top_p": 0.9,              # Controls nucleus sampling
-        "repeat_penalty": 1.1,     # Avoid repetition
-        "presence_penalty": 0.5    # Discourage reusing same concepts
+        "temperature": 0.3,
+        "top_p": 0.9,
+        "repeat_penalty": 1.1,
+        "presence_penalty": 0.5
     }
-    response_text = ""
+
     try:
         with requests.post(OLLAMA_API, json=payload, stream=True) as res:
             res.raise_for_status()
@@ -110,14 +110,13 @@ def stream_response(prompt):
                         data = json.loads(line.decode("utf-8").replace("data: ", ""))
                         token = data.get("response", "")
                         print(token, end="", flush=True)
-                        response_text += token
+                        yield token
                     except json.JSONDecodeError:
                         continue
-
             print("\n", flush=True)
     except Exception as e:
         print(f"[Error: {e}]")
-    return response_text.strip()
+        yield "[Error: streaming failed]"
 
 # Log interaction
 def log_interaction(user_input, response):
@@ -161,10 +160,13 @@ def chat():
 
         prompt = build_prompt(user_input, context=context, memory=memory)
         print("YASHIKA: ", end="", flush=True)
-        response = stream_response(prompt)
+        response = ""
+        for chunk in stream_response(prompt):
+            response += chunk
 
         log_interaction(user_input, response)
         context.append({"user": user_input, "ai": response})
+
         context = context[-5:]  # keep recent 5 for context
         save_context(context)
 

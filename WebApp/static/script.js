@@ -1,28 +1,42 @@
-    async function sendMessage() {
-      const input = document.getElementById("userInput");
-      const message = input.value.trim();
-      if (!message) return;
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const message = input.value.trim();
+  if (!message) return;
 
-      const log = document.getElementById("log");
-      log.innerHTML += "You: " + message + "\n";
+  const log = document.getElementById("log");
+  log.innerHTML += "You: " + message + "\n";
+  input.value = "";
 
-      input.value = "";
+  try {
+    const response = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    });
 
-      try {
-        const response = await fetch("/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message })
-        });
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder("utf-8");
+    let fullResponse = "";
 
-        const data = await response.json();
-        log.innerHTML += "YASHIKA: " + data.response + "\n\n";
-      } catch (err) {
-        log.innerHTML += "YASHIKA: [Error processing command]\n\n";
-      }
+    log.innerHTML += "YASHIKA: ";
 
-      log.scrollTop = log.scrollHeight;
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      fullResponse += chunk;
+      log.innerHTML += chunk;
     }
+
+    log.innerHTML += "\n\n";
+  } catch (err) {
+    log.innerHTML += "[Error processing command]\n\n";
+  }
+
+  log.scrollTop = log.scrollHeight;
+}
+
 
     const presets = {
       DevModeProtocol: ["Open Chatgpt", "Open Youtube", "Open Vs code"],
