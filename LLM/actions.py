@@ -21,6 +21,7 @@ APP_COMMANDS = {
     "settings": "start ms-settings:",
 }
 
+# Map game keywords to commands or paths
 GAME_TRIGGERS = {
     "valorant": r"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\VALORANT.lnk",
     "gta trilogy": r"D:\Games\GTA - The Trilogy - DE\Launcher.exe"
@@ -46,16 +47,17 @@ def handle_local_commands(user_input: str) -> tuple[str | None, bool]:
         if f"open {name}" in lowered:
             subprocess.Popen(cmd, shell=True)
             return (f"Opening {name}...", True)
+    
+    for name, path in GAME_TRIGGERS.items():
+        if f"open {name}" in lowered or f"play {name}" in lowered:
+            os.startfile(path)
+            return (f"Starting {name}...", True)
 
     for name, path in FOLDER_PATHS.items():
         if f"open {name}" in lowered or f"show {name}" in lowered:
             os.startfile(path)
             return (f"Opening {name} folder...", True)
         
-    for name, path in GAME_TRIGGERS.items():
-        if f"open {name}" in lowered or f"play {name}" in lowered:
-            os.startfile(path)
-            return (f"Starting {name}...", True)
 
     return (None, False)
 
