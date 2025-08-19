@@ -3,6 +3,7 @@ import json
 import requests
 import re
 from actions import handle_local_commands
+from search import yashika_browse
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -129,6 +130,18 @@ def chat():
 
     while True:
         user_input = input("You: ").strip()
+
+        # Handle /search command directly
+        if user_input.startswith("/search"):
+            query = user_input[len("/search"):].strip()
+            print("YASHIKA: ", end="")
+            result = yashika_browse(query)
+            log_interaction(user_input, result)
+            context.append({"user": user_input, "ai": result})
+            context = context[-5:]
+            save_context(context)
+            continue
+
         response, matched = handle_local_commands(user_input)
         if matched:
             print(f"YASHIKA: {response}")
@@ -137,8 +150,6 @@ def chat():
             context = context[-5:]
             save_context(context)
             continue
-
-
 
         if user_input.lower() in ["exit", "quit"]:
             print("YASHIKA: Logging off. Catch you later, boss.")

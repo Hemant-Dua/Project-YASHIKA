@@ -9,13 +9,16 @@ from fastapi.staticfiles import StaticFiles
 
 import uvicorn
 
-from actions import handle_local_commands
+from actions import handle_local_commands                           # type: ignore
 
-from main import (
+from search import yashika_browse                                   # type: ignore
+
+from main import (                                                  # type: ignore
     build_prompt, load_context, load_memory,
     update_memory_from_input, save_memory, save_context,
     stream_response
 )
+
 
 from contextlib import asynccontextmanager
 
@@ -45,7 +48,16 @@ async def chat_api(req: Request):
     memory = update_memory_from_input(user_input, memory)
     save_memory(memory)
 
-    # Check for local commands
+    # Handle /search command directly
+    if user_input.startswith("/search"):
+        query = user_input[len("/search"):].strip()
+        result = yashika_browse(query)
+        context.append({"user": user_input, "ai": result})
+        context = context[-5:]
+        save_context(context)
+        return StreamingResponse((chunk for chunk in [result]), media_type="text/plain")
+
+    # Check for other local commands
     response, matched = handle_local_commands(user_input)
     if matched:
         context.append({"user": user_input, "ai": response})
@@ -53,6 +65,7 @@ async def chat_api(req: Request):
         save_context(context)
         return StreamingResponse((chunk for chunk in [response]), media_type="text/plain")
 
+    # LLM prompt
     prompt = build_prompt(user_input, context=context, memory=memory)
 
     def stream_gen():
@@ -62,7 +75,6 @@ async def chat_api(req: Request):
             yield chunk
         context.append({"user": user_input, "ai": full_response})
         save_context(context[-5:])
-
 
     return StreamingResponse(stream_gen(), media_type="text/plain")
 
