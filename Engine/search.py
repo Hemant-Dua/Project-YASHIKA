@@ -16,7 +16,7 @@ def web_search(query, max_results=5):
             results.append(f"{r['title']}: {r['body']} ({r['href']})")
     return "\n".join(results)
 
-def ask_ollama(prompt):
+def summarize(prompt):
     payload = {
         "model": MODEL,
         "prompt": prompt,
@@ -64,8 +64,7 @@ def yashika_browse(query):
     Now, answer Boss accordingly:
     """
 
-    return ask_ollama(prompt)
-
+    return summarize(prompt)
 
 # if __name__ == "__main__":
 #     while True:
