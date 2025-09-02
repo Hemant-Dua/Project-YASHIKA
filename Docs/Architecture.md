@@ -40,7 +40,7 @@ FastAPI Server
 - Prompt injection and response generation
 
 **API Communication Flow:**
-```python
+```
 Client Request → FastAPI → Context Retrieval → Ollama API Call → Response Processing → Client
 ```
 
