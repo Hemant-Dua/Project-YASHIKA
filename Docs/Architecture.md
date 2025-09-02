@@ -5,9 +5,8 @@
 Yashika is a multi-component personal AI system built around a FastAPI backend engine that orchestrates local LLM processing, web search capabilities, and system integration through dual frontend interfaces.
 
 ## Architecture Diagram
-<div style="background:white; display:inline-block; padding:20px;">
-  <img src="arch.svg" alt="Architecture Diagram" style="display:block;"/>
-</div>
+![Architecture Diagram](arch.svg)
+
 *Figure 1: Complete system architecture showing component relationships and data flow*
 
 ## Component Architecture
