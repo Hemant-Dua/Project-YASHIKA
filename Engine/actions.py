@@ -11,6 +11,7 @@ APP_COMMANDS = {
     "github": r'"C:\Program Files\Google\Chrome\Application\chrome.exe" https://github.com/Hemant-Dua',
     "chess": r'"C:\Program Files\Google\Chrome\Application\chrome.exe" https://www.chess.com/home',
     "codeforces": r'"C:\Program Files\Google\Chrome\Application\chrome.exe" https://codeforces.com/problemset?order=BY_RATING_ASC',
+    "leetcode" : r'"C:\Program Files\Google\Chrome\Application\chrome.exe" https://leetcode.com/problemset/',
     "chatgpt": r'"C:\Program Files\Google\Chrome\Application\chrome.exe" https://chatgpt.com/',
     "steam": r"C:\Program Files (x86)\Steam\steam.exe",
     "cmd": "start cmd",
@@ -25,7 +26,8 @@ APP_COMMANDS = {
 # Map game keywords to commands or paths
 GAME_TRIGGERS = {
     "valorant": r"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\VALORANT.lnk",
-    "gta trilogy": r"D:\Games\GTA - The Trilogy - DE\Launcher.exe"
+    "gta trilogy": r"D:\Games\GTA - The Trilogy - DE\Launcher.exe",
+    "hollow knight": r"D:\Games\Hollow Knight\hollow_knight.exe"
 }
 
 # Map folder keywords to absolute paths
