@@ -12,6 +12,7 @@ APP_COMMANDS = {
     "chess": r'"C:\Program Files\Google\Chrome\Application\chrome.exe" https://www.chess.com/home',
     "codeforces": r'"C:\Program Files\Google\Chrome\Application\chrome.exe" https://codeforces.com/problemset?order=BY_RATING_ASC',
     "chatgpt": r'"C:\Program Files\Google\Chrome\Application\chrome.exe" https://chatgpt.com/',
+    "steam": r"C:\Program Files (x86)\Steam\steam.exe",
     "cmd": "start cmd",
     "powershell": "start powershell",
     "task manager": "taskmgr",
@@ -60,4 +61,3 @@ def handle_local_commands(user_input: str) -> tuple[str | None, bool]:
         
 
     return (None, False)
-
