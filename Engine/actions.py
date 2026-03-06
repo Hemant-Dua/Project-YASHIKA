@@ -61,5 +61,4 @@ def handle_local_commands(user_input: str) -> tuple[str | None, bool]:
             os.startfile(path)
             return (f"Opening {name} folder...", True)
         
-
     return (None, False)
